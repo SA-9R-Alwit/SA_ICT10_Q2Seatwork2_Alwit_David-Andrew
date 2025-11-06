@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grade Calculator</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+
+    <style>
+        :root {
+            --blue-dark: #0a3d62;
+            --blue-medium: #3c6382;
+            --blue-light: #82ccdd;
+            --gold-accent: #f6b93b;
+            --bg-soft: #eaf4fc;
+        }
+
+        body {
+            background: linear-gradient(to bottom right, var(--blue-light), var(--bg-soft));
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 40px;
+        }
+
+        .container {
+            max-width: 700px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 35px;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            color: var(--blue-dark);
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            color: var(--blue-medium);
+            font-size: 1.25rem;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .input-group-text {
+            background-color: var(--blue-dark);
+            color: white;
+            min-width: 90px;
+        }
+
+        .form-control {
+            border: 1px solid var(--blue-medium);
+        }
+
+        .form-control:focus {
+            border-color: var(--blue-dark);
+            box-shadow: 0 0 0 0.25rem rgba(10, 61, 98, 0.2);
+        }
+
+        .btn-primary {
+            background-color: var(--blue-dark);
+            border-color: var(--blue-dark);
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--blue-medium);
+        }
+
+        #student_info, #summary, #output, #status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        #student_info {
+            background-color: var(--bg-soft);
+            color: var(--blue-dark);
+            font-weight: 600;
+            border-left: 4px solid var(--blue-dark);
+        }
+
+        #summary {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            font-family: monospace;
+        }
+
+        #output {
+            background-color: rgba(10, 61, 98, 0.1);
+            color: var(--blue-dark);
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        #status {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        #status.pass {
+            background-color: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        #status.fail {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .grades-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Student Grade Calculator</h1>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">First Name</span>
+            <input type="text" class="form-control" id="first_name">
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Last Name</span>
+            <input type="text" class="form-control" id="last_name">
+        </div>
+
+        <h2>Enter your grades:</h2>
+
+        <div class="grades-container">
+            <div class="input-group"><span class="input-group-text">Science</span><input type="text" class="form-control" id="science"></div>
+            <div class="input-group"><span class="input-group-text">Math</span><input type="text" class="form-control" id="math"></div>
+            <div class="input-group"><span class="input-group-text">English</span><input type="text" class="form-control" id="english"></div>
+            <div class="input-group"><span class="input-group-text">Filipino</span><input type="text" class="form-control" id="filipino"></div>
+            <div class="input-group"><span class="input-group-text">ICT</span><input type="text" class="form-control" id="ict"></div>
+            <div class="input-group"><span class="input-group-text">PE</span><input type="text" class="form-control" id="pe"></div>
+            <div class="input-group"><span class="input-group-text">SS</span><input type="text" class="form-control" id="ss"></div>
+            <div class="input-group"><span class="input-group-text">VE</span><input type="text" class="form-control" id="ve"></div>
+            <div class="input-group"><span class="input-group-text">TLE</span><input type="text" class="form-control" id="tle"></div>
+            <div class="input-group"><span class="input-group-text">CAT</span><input type="text" class="form-control" id="cat"></div>
+            <div class="input-group"><span class="input-group-text">Music</span><input type="text" class="form-control" id="music"></div>
+        </div>
+
+        <button class="btn btn-primary mt-3" type="submit" py-click="general_weighted_average">Calculate GWA</button>
+
+        <div id="student_info"></div>
+        <pre id="summary"></pre>
+        <div id="output"></div>
+        <div id="status"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="py" src="main.py"></script>
+</body>
+</html>
